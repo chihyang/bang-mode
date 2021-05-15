@@ -27,6 +27,9 @@
 
 (require 'cc-mode)
 (require 'cc-menus)
+(if (< emacs-major-version 27)
+    (require 'cl)
+  (require 'cl-lib))
 
 ;; These are only required at compile time to get the sources for the
 ;; language constants.  (The cc-fonts require and the font-lock
