@@ -38,8 +38,8 @@
 ;; necessary to get them compiled.)
 (eval-when-compile
   (require 'cc-langs)
-  (require 'cc-fonts))
-
+  (require 'cc-fonts)
+  (require 'gdb-mi))
 
 (eval-and-compile
   ;; Make our mode known to the language constant system.  Use C
@@ -353,8 +353,12 @@ contain type identifiers."
   "Names of built-in bang functions.")
 
 (defcustom bang-font-lock-extra-types nil
-  "*List of extra types to recognize in BANG mode.
+  "List of extra types to recognize in BANG mode.
 Each list item should be a regexp matching a single identifier."
+  :group 'bang-mode)
+
+(defcustom bang-cngdb-executable "cngdb"
+  "Location of Cambricon cngdb executable."
   :group 'bang-mode)
 
 (defconst bang-font-lock-keywords-1
@@ -427,6 +431,7 @@ Key bindings:
   (easy-menu-add bang-menu)
   (cc-imenu-init cc-imenu-bang-generic-expression)
   (add-hook 'flymake-diagnostic-functions 'flymake-cc nil t)
+  (setq-local gud-gdb-command-name (concat bang-cngdb-executable " -i=mi"))
   (c-run-mode-hooks 'c-mode-common-hook))
 
 (provide 'bang-mode)
